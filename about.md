@@ -3,28 +3,35 @@ layout: page
 title: About
 ---
 
-<p class="message">
-  Hey there! This page is included as an example. Feel free to customize it for your own use upon downloading. Carry on!
-</p>
+I currently work as a network engineer at a utility company. This means I get to play with "old" legacy technology along with the latest and greatest. Anything and everything from DS0s to MPLS.
 
-In the novel, *The Strange Case of Dr. Jekyll and Mr. Hyde*, Mr. Poole is Dr. Jekyll's virtuous and loyal butler. Similarly, Poole is an upstanding and effective butler that helps you build Jekyll themes. It's made by [@mdo](https://twitter.com/mdo).
+I have experience with the following:
 
-There are currently two themes built on Poole:
+## Equipment ##
+- Cisco
+  - 7200, 2600, 2800, 2900, 3900 series routers
+  - 2950, 2960, 3750, 3850 series switches
+  - various access points
+- HP
+  - 2626, 2530, 3800, 5400 series switches
+- Alcatel-Lucent
+  - 7705 SAR-8, 7705 SAR-18, 7705 SAR-H, 7750 SR-7 routers
 
-* [Hyde](http://hyde.getpoole.com)
-* [Lanyon](http://lanyon.getpoole.com)
+## Software/Managment ##
+- Microsoft Visio
+- Solarwinds NCM, NPM, NTA
+- Alcatel-Lucent 5620 SAM
+- GE MDS PulseNET
+- ESRI ArcMap
 
-Learn more and contribute on [GitHub](https://github.com/poole).
+## Certifications ##
+- FCC GROL (General radiotelephone operator license)
+- Alcatel-Lucent NRS 1
 
-## Setup
-
-Some fun facts about the setup of this project include:
-
-* Built for [Jekyll](http://jekyllrb.com)
-* Developed on GitHub and hosted for free on [GitHub Pages](https://pages.github.com)
-* Coded with [Sublime Text 2](http://sublimetext.com), an amazing code editor
-* Designed and developed while listening to music like [Blood Bros Trilogy](https://soundcloud.com/maddecent/sets/blood-bros-series)
-
-Have questions or suggestions? Feel free to [open an issue on GitHub](https://github.com/poole/poole/issues/new) or [ask me on Twitter](https://twitter.com/mdo).
+## Contact ##
+- Twitter: [twitter.com/nlgotz](https://twitter.com/nlgotz)
+- Github: [github.com/nlgotz](https://github.com/nlgotz)
+- LinkedIn: [linkedin.com/in/nlgotz](https://www.linkedin.com/in/nlgotz)
+- Email: nathan [ at ] gotz [ dot ] co
 
 Thanks for reading!

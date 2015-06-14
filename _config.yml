@@ -5,7 +5,7 @@ permalink:           pretty
 relative_permalinks: true
 
 # Setup
-title:               Gotz Networking
+title:               Gotz Networks
 tagline:             Because blinking lights are cool
 url:                 http://gotz.co
 paginate:            1
@@ -28,3 +28,8 @@ author:
 version:             1.0.0
 github:
   repo:              https://github.com/nlgotz/nlgotz.github.com
+
+pages_list:
+  About: '/about'
+  Archive: '/archive'
+  Feed: '/atom.xml'

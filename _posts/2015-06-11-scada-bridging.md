@@ -10,7 +10,7 @@ When the company I work for upgraded their WAN infrastructure, one of the sellin
 
 Well, I recently got a new toy at work: an Alcatel-Lucent ISC (Integrated Services Card). This allows us to do RS232 bridging. Now, I don't know how all company's do SCADA bridging, but we prefer to have active/active masters. This isn't a feature that Alcatel-Lucent has in the ISC by default, but we can work around it. Here's what our final end state should look like:
 
-![Our circuit end state](http://gotz.co/assets/scada_circuit4.png)
+![Circuit end state](http://gotz.co/assets/scada_circuit4.png)
 
 The Old Way (TDM)
 -----------------
@@ -97,82 +97,117 @@ Let's start with something simple. 1 Master and two remotes.
     A:B1>config>scada# /configure service cpipe 6001
     A:B1>config>service>cpipe# info
     ----------------------------------------------
-                description "Master 1 to Bridge 1"
-                sap 1/2/1.1 create
-                    description "to Bridge 1"
-                    ingress
-                        qos 64
-                    exit
-                    egress
-                        qos 64
-                    exit
-                exit
-                sap 1/6/1.1 create
-                    description "to Master 1"
-                    ingress
-                        qos 64
-                    exit
-                    egress
-                        qos 64
-                    exit
-                exit
-                no shutdown
+      description "Master 1 to Bridge 1"
+      sap 1/2/1.1 create
+          description "to Bridge 1"
+      exit
+      sap 1/6/1.1 create
+          description "to Master 1"
+      exit
+      no shutdown
     ----------------------------------------------
     A:B1>config>service>cpipe# /configure service cpipe 6002
     A:B1>config>service>cpipe# info
     ----------------------------------------------
-                description "RTU 1 to Bridge 1"
-                sap 1/2/1.3 create
-                    description "to Bridge 1"
-                    ingress
-                        qos 64
-                    exit
-                    egress
-                        qos 64
-                    exit
-                exit
-                sap 1/6/3.1 create
-                    description "to RTU 1"
-                    ingress
-                        qos 64
-                    exit
-                    egress
-                        qos 64
-                    exit
-                exit
-                no shutdown
+      description "RTU 1 to Bridge 1"
+      sap 1/2/1.3 create
+          description "to Bridge 1"
+      exit
+      sap 1/6/3.1 create
+          description "to RTU 1"
+      exit
+      no shutdown
     ----------------------------------------------
     A:B1>config>service>cpipe# /configure service cpipe 6003
     A:B1>config>service>cpipe# info
     ----------------------------------------------
-                description "RTU 2 to Bridge 1"
-                sap 1/2/1.4 create
-                    description "to Bridge 1"
-                    ingress
-                        qos 64
-                    exit
-                    egress
-                        qos 64
-                    exit
-                exit
-                sap 1/6/4.1 create
-                    description "to RTU 2"
-                    ingress
-                        qos 64
-                    exit
-                    egress
-                        qos 64
-                    exit
-                exit
-                no shutdown
+      description "RTU 2 to Bridge 1"
+      sap 1/2/1.4 create
+          description "to Bridge 1"
+      exit
+      sap 1/6/4.1 create
+          description "to RTU 2"
+      exit
+      no shutdown
     ----------------------------------------------
 
 ### Circuit 2: 2 Masters (active/standby), 2 Remotes ###
 ![Circuit 2](http://gotz.co/assets/scada_circuit2.png)
 
-And now we'll add a second master. The way the masters work is that one is active and one is passive. There is no automatic failover by default (hopefully Alcatel-Lucent adds that to a future release). You can manually fail between the two. The example shows that the second master is primary.
+And now we'll add a second master. The way the masters work is that one is active and one is standby. There is no automatic failover (hopefully Alcatel-Lucent adds active/active support to a future release). You can manually fail between the two masters if needed. The example shows that the second master is primary.
 
-    config here
+One other thing to note is that branches 1 and 2 are reserved for masters. The other 30 branches are reserved for slaves. There is no way to define if the branch is a master or slave.
+
+    A:B1>config>port# /configure scada 1/2/1
+    A:B1>config>scada# info
+    ----------------------------------------------
+        description "Master Bridge 1"
+        mddb
+            force-active master 2
+        exit
+        branch 1
+            description "to Master 1"
+            no shutdown
+        exit
+        branch 2
+        branch 3
+            description "to RTU 1"
+            no shutdown
+        exit
+        branch 4
+            description "to RTU 2"
+            no shutdown
+        exit
+        no shutdown
+    ----------------------------------------------
+    A:B1>config>scada# /configure service cpipe 6001
+    A:B1>config>service>cpipe# info
+    ----------------------------------------------
+      description "Master 1 to Bridge 1"
+      sap 1/2/1.1 create
+          description "to Bridge 1"
+      exit
+      sap 1/6/1.1 create
+          description "to Master 1"
+      exit
+      no shutdown
+    ----------------------------------------------
+    A:B1>config>service>cpipe# /configure service cpipe 6002
+    A:B1>config>service>cpipe# info
+    ----------------------------------------------
+      description "RTU 1 to Bridge 1"
+      sap 1/2/1.3 create
+          description "to Bridge 1"
+      exit
+      sap 1/6/3.1 create
+          description "to RTU 1"
+      exit
+      no shutdown
+    ----------------------------------------------
+    A:B1>config>service>cpipe# /configure service cpipe 6003
+    A:B1>config>service>cpipe# info
+    ----------------------------------------------
+      description "RTU 2 to Bridge 1"
+      sap 1/2/1.4 create
+          description "to Bridge 1"
+      exit
+      sap 1/6/4.1 create
+          description "to RTU 2"
+      exit
+      no shutdown
+    ----------------------------------------------
+    A:B1>config>service>cpipe# /configure service cpipe 6004
+    A:B1>config>service>cpipe# info
+    ----------------------------------------------
+      description "Master 2 to Bridge 1"
+      sap 1/2/1.2 create
+          description "to Bridge 1"
+      exit
+      sap 1/6/2.1 create
+          description "to Master 2"
+      exit
+      no shutdown
+    ----------------------------------------------
 
 
 ### Circuit 3: 2 Masters (active/active), 2 Remotes ###
@@ -222,21 +257,9 @@ Time to make the magic happen. Alcatel-Lucent doesn't let you have active/active
       description "Master 1 to Bridge 1"
       sap 1/2/1.3 create
           description "to Bridge 1"
-          ingress
-              qos 64
-          exit
-          egress
-              qos 64
-          exit
       exit
       sap 1/6/1.1 create
           description "to Master 1"
-          ingress
-              qos 64
-          exit
-          egress
-              qos 64
-          exit
       exit
       no shutdown
     ----------------------------------------------
@@ -246,21 +269,9 @@ Time to make the magic happen. Alcatel-Lucent doesn't let you have active/active
       description "Master 2 to Bridge 1"
       sap 1/2/1.4 create
           description "to Bridge 1"
-          ingress
-              qos 64
-          exit
-          egress
-              qos 64
-          exit
       exit
       sap 1/6/2.1 create
           description "to Master 2"
-          ingress
-              qos 64
-          exit
-          egress
-              qos 64
-          exit
       exit
       no shutdown
     ----------------------------------------------
@@ -270,21 +281,9 @@ Time to make the magic happen. Alcatel-Lucent doesn't let you have active/active
       description "RTU 1 to Bridge 2"
       sap 1/2/2.3 create
           description "to Bridge 2"
-          ingress
-              qos 64
-          exit
-          egress
-              qos 64
-          exit
       exit
       sap 1/6/3.1 create
           description "to RTU 1"
-          ingress
-              qos 64
-          exit
-          egress
-              qos 64
-          exit
       exit
       no shutdown
     ----------------------------------------------
@@ -294,21 +293,9 @@ Time to make the magic happen. Alcatel-Lucent doesn't let you have active/active
       description "RTU 2 to Bridge 2"
       sap 1/2/2.4 create
           description "to Bridge 2"
-          ingress
-              qos 64
-          exit
-          egress
-              qos 64
-          exit
       exit
       sap 1/6/4.1 create
           description "to RTU 2"
-          ingress
-              qos 64
-          exit
-          egress
-              qos 64
-          exit
       exit
       no shutdown
     ----------------------------------------------
@@ -318,21 +305,9 @@ Time to make the magic happen. Alcatel-Lucent doesn't let you have active/active
       description "Bridge 1 (Master) to Bridge 2 (RTU)"
       sap 1/2/1.1 create
           description "to Bridge 1"
-          ingress
-              qos 64
-          exit
-          egress
-              qos 64
-          exit
       exit
       sap 1/2/2.1 create
           description "to Bridge 2"
-          ingress
-              qos 64
-          exit
-          egress
-              qos 64
-          exit
       exit
       no shutdown
     ----------------------------------------------
@@ -341,7 +316,7 @@ Time to make the magic happen. Alcatel-Lucent doesn't let you have active/active
 ### Circuit 4; 2 Masters (active/active), 2 Remotes on multiple SARs ###
 ![Circuit 4](http://gotz.co/assets/scada_circuit4.png)
 
-So far all of the code has been on a single SAR. This is not how it works in the real world. So how do you do it when your working with multiple boxes? Well, those C-Pipes we've been creating can be tweaked just a bit to achieve what we need. Instead of 2 SAPs, we will use 1 SAP and 1 SDP going to the other box.
+So far all of the code has been on a single SAR. This is not how it works in the real world. So how do you do it when your working with multiple boxes? Well, those C-Pipes we've been creating can be tweaked just a bit to achieve what we need. Instead of 2 SAPs, we will use 1 SAP and 1 spoke-sdp going to the other box.
 
 #### B1 ####
 
@@ -387,14 +362,8 @@ So far all of the code has been on a single SAR. This is not how it works in the
       description "Master 1 to Bridge 1"
       sap 1/2/1.3 create
           description "to Bridge 1"
-          ingress
-              qos 64
-          exit
-          egress
-              qos 64
-          exit
       exit
-      sdp M1:6001 create
+      spoke-sdp M1:6001 create
       exit
       no shutdown
     ----------------------------------------------
@@ -404,14 +373,8 @@ So far all of the code has been on a single SAR. This is not how it works in the
       description "Master 2 to Bridge 1"
       sap 1/2/1.4 create
           description "to Bridge 1"
-          ingress
-              qos 64
-          exit
-          egress
-              qos 64
-          exit
       exit
-      sdp M2:6002 create
+      spoke-sdp M2:6002 create
       exit
       no shutdown
     ----------------------------------------------
@@ -421,14 +384,8 @@ So far all of the code has been on a single SAR. This is not how it works in the
       description "RTU 1 to Bridge 2"
       sap 1/2/2.3 create
           description "to Bridge 2"
-          ingress
-              qos 64
-          exit
-          egress
-              qos 64
-          exit
       exit
-      sdp R1:6002 create
+      spoke-sdp R1:6002 create
       exit
       no shutdown
     ----------------------------------------------
@@ -438,14 +395,8 @@ So far all of the code has been on a single SAR. This is not how it works in the
       description "RTU 2 to Bridge 2"
       sap 1/2/2.4 create
           description "to Bridge 2"
-          ingress
-              qos 64
-          exit
-          egress
-              qos 64
-          exit
       exit
-      sdp R2:6003 create
+      spoke-sdp R2:6003 create
       exit
       no shutdown
     ----------------------------------------------
@@ -455,21 +406,9 @@ So far all of the code has been on a single SAR. This is not how it works in the
       description "Bridge 1 (Master) to Bridge 2 (RTU)"
       sap 1/2/1.1 create
           description "to Bridge 1"
-          ingress
-              qos 64
-          exit
-          egress
-              qos 64
-          exit
       exit
       sap 1/2/2.1 create
           description "to Bridge 2"
-          ingress
-              qos 64
-          exit
-          egress
-              qos 64
-          exit
       exit
       no shutdown
     ----------------------------------------------
@@ -482,14 +421,8 @@ So far all of the code has been on a single SAR. This is not how it works in the
       description "Master 1 to Bridge 1"
       sap 1/6/1.1 create
           description "to Master 1"
-          ingress
-              qos 64
-          exit
-          egress
-              qos 64
-          exit
       exit
-      sdp B1:6001 create
+      spoke-sdp B1:6001 create
       exit
       no shutdown
     ----------------------------------------------
@@ -501,14 +434,8 @@ So far all of the code has been on a single SAR. This is not how it works in the
       description "Master 2 to Bridge 1"
       sap 1/6/1.1 create
           description "to Master 2"
-          ingress
-              qos 64
-          exit
-          egress
-              qos 64
-          exit
       exit
-      sdp B1:6004 create
+      spoke-sdp B1:6004 create
       exit
       no shutdown
     ----------------------------------------------
@@ -520,14 +447,8 @@ So far all of the code has been on a single SAR. This is not how it works in the
       description "RTU 1 to Bridge 2"
       sap 1/6/1.1 create
           description "to RTU 1"
-          ingress
-              qos 64
-          exit
-          egress
-              qos 64
-          exit
       exit
-      sdp B1:6002 create
+      spoke-sdp B1:6002 create
       exit
       no shutdown
     ----------------------------------------------
@@ -539,16 +460,11 @@ So far all of the code has been on a single SAR. This is not how it works in the
       description "RTU 2 to Bridge 2"
       sap 1/6/1.1 create
           description "to RTU 2"
-          ingress
-              qos 64
-          exit
-          egress
-              qos 64
-          exit
       exit
-      sdp B1:6003 create
+      spoke-sdp B1:6003 create
       exit
       no shutdown
     ----------------------------------------------
 
 ## Conclusion ##
+Setting up SCADA bridging is fairly simple in Alcatel-Lucent's 7705 SARs once you get going. One thing that I didn't include was a QOS policy on any of the SAPs. This is something that you definitely need for a production environment to ensure that the SCADA data is properly tagged and handled.
