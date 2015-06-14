@@ -22,7 +22,6 @@ sass:
 author:
   name:              Nate Gotz
   url:               https://twitter.com/nlgotz
-  email:             nathan@gotz.co
 
 # Custom vars
 version:             1.0.0
