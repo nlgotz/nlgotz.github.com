@@ -10,7 +10,6 @@ Ansible-playbook. A sample Ansible playbook is available here:
 [https://github.com/nlgotz/sros-ansible](https://github.com/nlgotz/sros-ansible)
 
 The overall steps are as follows:
-
 1. Collect all information on the device, IP addresses, and far-end devices.
 2. Add all that information to the ansible-playbook folder
 3. Run ansible-playbook
