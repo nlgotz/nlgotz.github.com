@@ -50,9 +50,8 @@ The file name should be named (in this case) SROS01.yml. It should be the
 hostname that you used in the hosts file followed by .yml.
 
 Below is a sample yml file (This is taken from my GitHub repository):
-
-    cat host_vars/SROS01.yml
-    ---
+	cat host_vars/SROS01.yml
+	---
     management:
         hostname: SROS01
         location: "Site A"
