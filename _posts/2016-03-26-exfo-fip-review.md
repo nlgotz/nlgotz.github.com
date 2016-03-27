@@ -7,6 +7,7 @@ comments: True
 For work, I recently got an EXFO FIP-435B fiber inspection probe and figured I would review it. I've inspected about 200 connections so far and feel like I have pretty good grasp on the product.
 
 ![EXFO FIP-435B (Image from specialized.net)](http://gotz.co/assets/2016-03-26-exfo-fip-review/exfo-fip435b.jpg "Image from specialized.net")
+Image from specialized.net
 
 It connects to Android or Apple phones via Wi-Fi. I've only used it on an Android device so far and the application doesn't seem to have any major issues. One cool feature is that after saving a graded fiber, if you click on the image, it will turn on or off the red/green pass/fail markings.
 
