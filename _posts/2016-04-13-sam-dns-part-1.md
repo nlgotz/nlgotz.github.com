@@ -9,9 +9,9 @@ Intro
 
 This is going to be part 1 of 3 of how to use Nokia's 5620 SAM to automatically create and delete DNS records for network interfaces. This is an on going project, so not all the details have been worked out.
 
-Part 1 (aka this post) will be the background and tools I'm planning on using.
+[Part 1](http://gotz.co/2016/04/13/sam-dns-part-1/) (aka this post) will be the background and tools I'm planning on using.
 
-Part 2 (link sometime in the future) will be on getting it to actually work and making it a bit more modular so it can be customized for any company.
+[Part 2](http://gotz.co/2016/05/23/sam-dns-part-2/) will be on getting it to actually work and making it a bit more modular so it can be customized for any company.
 
 Part 3 (link sometime way in the future) will be on adding more automation, like tracking interfaces that were removed and delete them after a set period of time.
 
@@ -36,7 +36,7 @@ SAM-OSS
 
 In order to interact with 5620 SAM via an external program, the way you do that is via SAM-O, an OSS hook. OSS stands for Operations Support System. Unfortunately, the way you interact with SAM-O is via SOAP XML. Personally, JSON would be a lot easier, but you work with what you have. I won't go over how you use SOAP, as the documentation on Nokia's website is really good.
 
-One thing I found out early on when testing SAM-O is that the user that you use needs SAM-O permission. Another thing is, make sure to add filters, especially if you have a lot of nodes. When I was testing with two Google Chrome Applications (ARC (Advanced ReST Client) and Boomerang), both chocked and crashed with the amount of data if you don't filter.
+One thing I found out early on when testing SAM-O is that the user that you use needs SAM-O permission. Another thing is, make sure to add filters, especially if you have a lot of nodes. When I was testing with two Google Chrome Applications (ARC (Advanced ReST Client) and Boomerang), both choked and crashed with the amount of data if you don't filter.
 
 Conclusion
 ----------
