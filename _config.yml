@@ -6,7 +6,7 @@ permalink:           pretty
 # Setup
 title:               Gotz Networks
 tagline:             Because blinking lights are cool
-url:                 http://gotz.co
+url:                 https://gotz.co
 paginate:            1
 baseurl:             "/"
 
