@@ -23,18 +23,24 @@ ZeroTier's concept of planets and moons means that by default, your node will at
 Here's the steps I used to create my own planets file.
 
 1. Check out ZeroTier from Github:
+
        git clone https://github.com/zerotier/ZeroTierOne.git
 2. Go into the world folder inside the attic
+
        cd ZeroTierOne/attic/world
 3. Edit the mkworld.cpp file. Remove the IP addresses of the ZeroTier Controllers and add your own. ZeroTier has 2 controllers, but more can be added.
 4. Build the file
+
         source ./build.sh
 5. Run the mkworld file
+
         ./mkworld
 6. A new world.bin file should be created. This will be the file that all of your nodes need
 7. Copy the world.bin file to your ZeroTier-One folder (this works on Linux)
+
         cp world.bin /var/lib/zerotier-one/planet
 8. Restart ZeroTier
+
         sudo systemctl restart zerotier-one.service
 9. Copy the world.bin file and repeat Steps 7 and 8 to each node you want to use.
 
