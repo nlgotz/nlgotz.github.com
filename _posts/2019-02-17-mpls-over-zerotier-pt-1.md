@@ -4,7 +4,7 @@ title: Running MPLS over ZeroTier Part 1
 comments: True
 ---
 
-I had a use case to run an MPLS network over the internet. Talking with other people running MPLS networks, most of them ended up running GRE for their non-private links. This wouldn't meet the requirements I was given. My main objective was to make the MPLS nodes connected over the internet look just like any other node in our network.
+I had a use case to run an MPLS network over the internet. Talking with other people running MPLS networks, most of them either avoided running MPLS over public networks or ended up running GRE. Those that didn't run MPLS over public networks but needed to connect sites by cellular or internet, would usually run DMVPN. My main objective was to make the MPLS nodes connected over the internet look just like any other node in our network.
 
 Thanks to [The Network Collective](https://thenetworkcollective.com/) Slack group, I was introduced to [ZeroTier](http://zerotier.com/). ZeroTier is an SDN VPN. The main selling feature for me is that ZeroTier is a layer 2 network that just shows up as an interface in Linux with an MTU of 2800. The capabilities to bridge the ZeroTier network to a physical interface in Linux and the MTU size of 2800 make it an excellent choice for an MPLS underlay.
 
