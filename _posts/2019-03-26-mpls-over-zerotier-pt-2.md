@@ -79,7 +79,9 @@ https://github.com/andrewbasterfield/debian-thinkpad-wwan-EM7455.git
          pre-up /etc/network/wwan.sh start
          pre-down /etc/network/wwan.sh stop
 
-        sudo ifup wwp0s20u2i12
+Then bring the new interface up
+
+        sudo ifup <interface_name>
 
 The 'debian-thinkpad-wwan-EM7455' GitHub repository doesn't completely
 work for the the LTE setup in the Cincoze DA-1000 as there are some
