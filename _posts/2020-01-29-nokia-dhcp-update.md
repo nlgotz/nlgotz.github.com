@@ -6,9 +6,13 @@ comments: True
 
 I recently got a request from our network team to come up with a way to update all the DHCP server entries in our Nokia nodes. With about 300 nodes and assuming 3 VPRN interfaces per node, there is no way they could easily update all the interfaces in a timely manner.
 
-I ended up creating [sros-dhcp](https://github.com/nlgotz/sros_dhcp) to facilitate this update.
+I ended up creating [sros-dhcp](https://github.com/nlgotz/sros_dhcp) with Ansible to facilitate this update.
 
 ## How to Use
+
+0. Ensure you have the latest Ansible (2.9.4 as of this writing) and paramiko installed
+
+    `pip install ansible paramiko`
 
 1. Clone the Repository
 
