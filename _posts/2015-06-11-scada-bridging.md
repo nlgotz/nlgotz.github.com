@@ -1,7 +1,6 @@
 ---
 layout: post
 title: SCADA Bridging How-to
-comments: True
 ---
 
 Intro
