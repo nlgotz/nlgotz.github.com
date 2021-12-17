@@ -1,7 +1,6 @@
 ---
 layout: post
 title: Running MPLS over ZeroTier Part 1
-comments: True
 ---
 
 I had a use case to run an MPLS network over the internet. Talking with other people running MPLS networks, most of them either avoided running MPLS over public networks or ended up running GRE. Those that didn't run MPLS over public networks but needed to connect sites by cellular or internet, would usually run DMVPN. My main objective was to make the MPLS nodes connected over the internet look just like any other node in our network.
