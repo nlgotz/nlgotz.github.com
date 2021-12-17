@@ -1,7 +1,6 @@
 ---
 layout: post
 title: EXFO FIP-435B Review
-comments: True
 ---
 
 For work, I recently got an EXFO FIP-435B fiber inspection probe and figured I would review it. I've inspected about 200 connections so far and feel like I have pretty good grasp on the product.
