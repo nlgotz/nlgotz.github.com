@@ -1,7 +1,6 @@
 ---
 layout: post
 title: 5620 SAM DNS Part 1
-comments: True
 ---
 
 Intro
