@@ -1,7 +1,6 @@
 ---
 layout: post
 title: Running MPLS over ZeroTier Part 2
-comments: True
 ---
 
 In [Part 1](https://gotz.co/2019/02/17/mpls-over-zerotier-pt-1/), I
