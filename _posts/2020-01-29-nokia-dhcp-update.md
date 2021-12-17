@@ -1,7 +1,6 @@
 ---
 layout: post
 title: Updating DHCP Servers on Nokia SROS
-comments: True
 ---
 
 I recently got a request from our network team to come up with a way to update all the DHCP server entries in our Nokia nodes. With about 300 nodes and assuming 3 VPRN interfaces per node, there is no way they could easily update all the interfaces in a timely manner.
