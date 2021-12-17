@@ -1,7 +1,6 @@
 ---
 layout: post
 title: SROS Config Generation with Ansible
-comments: True
 ---
 
 When I'm building new Alcatel routers, I have a pretty simple process that makes
