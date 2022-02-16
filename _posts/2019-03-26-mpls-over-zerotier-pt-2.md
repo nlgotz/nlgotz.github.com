@@ -28,7 +28,7 @@ used in manufacturing or other industrial environments. I ended up going with th
 from Logic Supply](https://www.logicsupply.com/da-1000/) as it had most of the features we need. With a change in processor and the LTE modem, this works as a great remote node.
 
 On the hub side, I ended up using some servers that were running virtual
-machines. 
+machines.
 
 ## Software
 
@@ -56,15 +56,13 @@ for future nodes.
         sudo chmod +x autoflash-7455.sh
         sudo ./autoflash-7455.sh
 
-
 It will pop up with "Are you sure you want to continue? (CTRL+C to
 exit). Type 'y' and hit enter.
 
 Then we need to get the interface to actually come up and properly get
 an LTE IP address
 
-        git clone
-https://github.com/andrewbasterfield/debian-thinkpad-wwan-EM7455.git
+        git clone https://github.com/andrewbasterfield/debian-thinkpad-wwan-EM7455.git
         cd debian-thinkpad-wwan-EM7455
         sudo install -o root -g root -m755 wwan.sh /etc/network/wwan.sh
         sudo install -o root -g root -m755 wwan_parse_ip_info /etc/network/wwan_parse_ip_info
@@ -92,6 +90,5 @@ Other than those two items, most of it was setting up the DA-1000 with
 the proper IP addressing scheme and installing ZeroTier. I went over
 installing ZeroTier and the custom planets file in [Part
 1](https://gotz.co/2019/02/17/mpls-over-zerotier-pt-1/).
-
 
 In Part 3 we'll wrap this up by going over setting up the ZeroTier networks, some initial MPLS results, and future improvements I'd like to make.

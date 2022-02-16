@@ -41,7 +41,7 @@ I ended up creating [sros-dhcp](https://github.com/nlgotz/sros_dhcp) with Ansibl
 
 8. Run the gather playbook to make sure all the changes took effect.
 
-  `ansible-playbook -i mpls gather_dhcp_interfaces.yml`
+    `ansible-playbook -i mpls gather_dhcp_interfaces.yml`
 
 9. Review the bad_interfaces.csv file again to make sure that nothing got missed.
 

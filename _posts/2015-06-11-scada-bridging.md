@@ -3,8 +3,7 @@ layout: post
 title: SCADA Bridging How-to
 ---
 
-Intro
------
+## Intro
 
 When the company I work for upgraded their WAN infrastructure, one of the selling points of going to [Alcatel-Lucent](http://alcatel-lucent.com) was that they had better support for TDM and legacy equipment. It would have the ability to slowly (but eventually) allow us to migrate away from Digital Cross Connects (DCS) and channel banks while still providing those legacy circuits.
 
@@ -12,8 +11,7 @@ Well, I recently got a new toy at work: an Alcatel-Lucent ISC (Integrated Servic
 
 ![Circuit end state](http://gotz.co/assets/scada_circuit4.png)
 
-The Old Way (TDM)
------------------
+## The Old Way (TDM)
 
 The old way involved a lot of predefined TDM links. All of the routes are predetermined by an engineer and if one of the links has a failure, that circuit is down.
 
@@ -21,13 +19,11 @@ The old way involved a lot of predefined TDM links. All of the routes are predet
 
 The above drawing is simplified as it shows only one Master and one Remote. Typically, you'll have two masters that connect to any number of remotes.
 
-The New Way (MPLS)
-------------------
+## The New Way (MPLS)
 
 So now that we've seen how things were done with TDM, why would we want to use MPLS? One of the benefits of MPLS over TDM is that MPLS can route around failures. So if your sites are connected via multiple links, the odds of failure goes down and also means that instead of needing to call out a tech at 0200 on a Sunday morning, the RTU will stay up and the tech can start troubleshooting on Monday. MPLS allows us to remove another point of failure and route around it. Yes, equipment failure can still happen, but if the failure is not on the terminal equipment, clients will be less likely to notice.
 
-Circuit Building
-----------------
+## Circuit Building
 
 Before we can get to the end state, we need to start from the basics. Here are the circuits we are going to build:
 
@@ -46,7 +42,7 @@ Before we get to the actual config, here is some conventions:
 - M1 and M2 are the Alcatel-Lucent 7705 SARs with the Masters attached (only for bridge configuration 4)
 - R1, R2, and R2 are the Alcatel-Lucent 7705 SARs with the Remotes attached (only for bridge configuration 4)
 
-### Port configuration ###
+### Port configuration
 
 In order to build bridges, we need RS232 ports configured properly.
 
@@ -71,7 +67,8 @@ You will need to do this for each RS232 port you use. And obviously you will nee
 
 I will be using 1/6/1 for Master 1, 1/6/2 for Master 2, 1/6/3 for RTU 1, and 1/6/4 for RTU 2.
 
-### Circuit 1: 1 Master, 2 Remotes ###
+### Circuit 1: 1 Master, 2 Remotes
+
 ![Circuit 1](http://gotz.co/assets/scada_circuit1.png)
 
 Let's start with something simple. 1 Master and two remotes.
@@ -131,7 +128,8 @@ Let's start with something simple. 1 Master and two remotes.
       no shutdown
     ----------------------------------------------
 
-### Circuit 2: 2 Masters (active/standby), 2 Remotes ###
+### Circuit 2: 2 Masters (active/standby), 2 Remotes
+
 ![Circuit 2](http://gotz.co/assets/scada_circuit2.png)
 
 And now we'll add a second master. The way the masters work is that one is active and one is standby. There is no automatic failover (hopefully Alcatel-Lucent adds active/active support to a future release). You can manually fail between the two masters if needed. The example shows that the second master is primary.
@@ -209,8 +207,8 @@ One other thing to note is that branches 1 and 2 are reserved for masters. The o
       no shutdown
     ----------------------------------------------
 
+### Circuit 3: 2 Masters (active/active), 2 Remotes
 
-### Circuit 3: 2 Masters (active/active), 2 Remotes ###
 ![Circuit 3](http://gotz.co/assets/scada_circuit3.png)
 
 Time to make the magic happen. Alcatel-Lucent doesn't let you have active/active masters by default in a single bridge. So the way that we work around this is to take two bridges and put them back to back. This cuts the limit of bridges we can do in half, but we can still do active/active.
@@ -312,13 +310,13 @@ Time to make the magic happen. Alcatel-Lucent doesn't let you have active/active
       no shutdown
     ----------------------------------------------
 
+### Circuit 4; 2 Masters (active/active), 2 Remotes on multiple SARs
 
-### Circuit 4; 2 Masters (active/active), 2 Remotes on multiple SARs ###
 ![Circuit 4](http://gotz.co/assets/scada_circuit4.png)
 
 So far all of the code has been on a single SAR. This is not how it works in the real world. So how do you do it when your working with multiple boxes? Well, those C-Pipes we've been creating can be tweaked just a bit to achieve what we need. Instead of 2 SAPs, we will use 1 SAP and 1 spoke-sdp going to the other box.
 
-#### B1 ####
+#### B1
 
     A:B1>config>port# /configure scada 1/2/1
     A:B1>config>scada# info
@@ -413,7 +411,7 @@ So far all of the code has been on a single SAR. This is not how it works in the
       no shutdown
     ----------------------------------------------
 
-#### M1 ####
+#### M1
 
     A:M1>config>scada# /configure service cpipe 6001
     A:M1>config>service>cpipe# info
@@ -427,7 +425,8 @@ So far all of the code has been on a single SAR. This is not how it works in the
       no shutdown
     ----------------------------------------------
 
-#### M2 ####
+#### M2
+
     A:M2>config>scada# /configure service cpipe 6004
     A:M2>config>service>cpipe# info
     ----------------------------------------------
@@ -440,7 +439,8 @@ So far all of the code has been on a single SAR. This is not how it works in the
       no shutdown
     ----------------------------------------------
 
-#### R1 ####
+#### R1
+
     A:R1>config>scada# /configure service cpipe 6002
     A:R1>config>service>cpipe# info
     ----------------------------------------------
@@ -453,7 +453,8 @@ So far all of the code has been on a single SAR. This is not how it works in the
       no shutdown
     ----------------------------------------------
 
-#### R2 ####
+#### R2
+
     A:R2>config>scada# /configure service cpipe 6003
     A:R2>config>service>cpipe# info
     ----------------------------------------------
@@ -466,5 +467,6 @@ So far all of the code has been on a single SAR. This is not how it works in the
       no shutdown
     ----------------------------------------------
 
-## Conclusion ##
+## Conclusion
+
 Setting up SCADA bridging is fairly simple in Alcatel-Lucent's 7705 SARs once you get going. One thing that I didn't include was a QOS policy on any of the SAPs. This is something that you definitely need for a production environment to ensure that the SCADA data is properly tagged and handled.
