@@ -114,11 +114,7 @@ subnet 192.168.99.0 netmask 255.255.255.0 {
 
 ## DHCPv6 on Linux
 
-One snag I ran into is getting DHCPv6 to create DNS records for Linux devices. I've found
-
-## Finishing it up
-
-Once all of this work is done, restart the services and then you can start enjoying using DNS to access all of your DHCP'd devices on your network. This requires modifying the end device's /etc/dhclient.conf to send the fqdn.
+One snag I ran into is getting DHCPv6 to create DNS records for Linux devices. I've found that this requires modifying the end device's /etc/dhclient.conf to send the fqdn.
 
 ```bash
 send fqdn.fqdn = gethostname();
@@ -126,6 +122,10 @@ send fqdn.fqdn = gethostname();
 
 Once this is updated, then the Linux client will send it's hostname to DHCP which can then create the DNS records.
 
+
+## Finishing it up
+
+Once all of this work is done, restart the services and then you can start enjoying using DNS to access all of your DHCP'd devices on your network. 
 ### References
 
 Here's some of the resource's I've used to get this setup up and working:
