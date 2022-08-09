@@ -12,6 +12,6 @@ title: About
 
 ### Current Role ###
 
-Currently a Senior Network Automation Consultant and [Network to Code](https://networktocode.com)
+Currently a Senior Network Automation Consultant at [Network to Code](https://networktocode.com)
 
 Thanks for reading!
