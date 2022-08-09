@@ -12,6 +12,6 @@ title: About
 
 ### Current Role ###
 
-Currently a Network Architect at IP Architechs
+Currently a Senior Network Automation Consultant and [Network to Code](https://networktocode.com)
 
 Thanks for reading!

@@ -1,6 +1,9 @@
 ---
 layout: post
 title: Creating DNS records for DHCPv6 and DHCPv4 leases
+summary: Creating DNS records for DHCPv6 and DHCPv4 leases with PowerDNS and ISC DHCP
+author: nlgotz
+largeimage: /assets/dhcp_dns_header.png
 ---
 
 ![DHCPv4 and DHCPv6 to DNS](/assets/dhcp_dns_header.png)
@@ -122,10 +125,10 @@ send fqdn.fqdn = gethostname();
 
 Once this is updated, then the Linux client will send it's hostname to DHCP which can then create the DNS records.
 
-
 ## Finishing it up
 
-Once all of this work is done, restart the services and then you can start enjoying using DNS to access all of your DHCP'd devices on your network. 
+Once all of this work is done, restart the services and then you can start enjoying using DNS to access all of your DHCP'd devices on your network.
+
 ### References
 
 Here's some of the resource's I've used to get this setup up and working:
